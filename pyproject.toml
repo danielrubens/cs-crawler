@@ -1,0 +1,7 @@
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-s -v --cov=src --cov-report=term-missing"
+testpaths = [
+    "tests",
+]
+pythonpath = "."
