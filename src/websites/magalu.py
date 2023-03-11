@@ -39,3 +39,7 @@ class Magalu(Website):
             return float(content)
         except (ValueError, ArithmeticError):
             return None
+    
+    def _get_product_name(self, product_html: str) -> Optional[str]:
+        soup = BeautifulSoup(product_html, "html.parser")
+        return soup.find("h2", {"data-testid": "product-title"}).text
