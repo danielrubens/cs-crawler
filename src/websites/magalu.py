@@ -1,6 +1,7 @@
 import requests
-from typing import List
+from typing import List, Optional
 from bs4 import BeautifulSoup
+from src.utils import PRICE_REGEX
 from src.websites.website import HTML, Website
 
 
@@ -25,3 +26,16 @@ class Magalu(Website):
         soup = BeautifulSoup(content, "html.parser")
         products = soup.find_all("li", {"class": "sc-fCBrnK hYPKVt"})
         return [str(product) for product in products if products]
+    
+    def _get_product_price(self, product_html: str) -> Optional[float]:
+        soup = BeautifulSoup(product_html, "html.parser")
+        price_div = soup.find("p", {"data-testid": "price-value"}) 
+        try:
+            price_str = PRICE_REGEX.search(price_div.text)
+        except AttributeError:
+            return None
+        try:
+            content = price_str.group(0).replace(".", "").replace(",", ".")
+            return float(content)
+        except (ValueError, ArithmeticError):
+            return None
