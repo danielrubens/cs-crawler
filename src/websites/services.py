@@ -1,5 +1,5 @@
-from bs4 import BeautifulSoup
 import json
+from bs4 import BeautifulSoup
 
 def get_product_info(arg):
     with open('src/websites/constants.json') as f:

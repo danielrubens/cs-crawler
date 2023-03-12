@@ -10,7 +10,8 @@ class Pichau(Website):
     BASE_URL, BASE_SEARCH_URL, HEADERS = get_constants("pichau")
 
     def _get_search_page_with_search_results(self, product_name: str) -> HTML:
-        return requests.get(self.BASE_SEARCH_URL, headers=self.HEADERS, params={"q": product_name.lower()}).text
+        kwargs = {'headers': self.HEADERS, 'params': {"q": product_name.lower()}}
+        return requests.get(self.BASE_SEARCH_URL, **kwargs).text
 
     def _get_products_html(self, product_name: str) -> List[HTML]:
         content = self._get_search_page_with_search_results(product_name)

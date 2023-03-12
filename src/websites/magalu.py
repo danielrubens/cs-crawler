@@ -10,9 +10,8 @@ class Magalu(Website):
     BASE_URL, BASE_SEARCH_URL, HEADERS = get_constants("magazineluiza")
 
     def _get_search_page_with_search_results(self, product_name: str) -> HTML:
-        urlify_product_name = product_name.lower().replace(" ", "+")
-        return requests.get(
-            f"{self.BASE_SEARCH_URL}/{urlify_product_name}", headers=self.HEADERS).text
+        url = product_name.lower().replace(" ", "+")
+        return requests.get(f"{self.BASE_SEARCH_URL}/{url}", headers=self.HEADERS).text
     
     def _get_products_html(self, product_name: str) -> List[HTML]:
         content = self._get_search_page_with_search_results(product_name)
