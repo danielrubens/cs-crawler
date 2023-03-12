@@ -1,5 +1,4 @@
 import requests
-import json
 from typing import List, Optional
 from bs4 import BeautifulSoup
 from src.utils import PRICE_REGEX
