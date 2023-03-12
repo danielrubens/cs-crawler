@@ -1,10 +1,10 @@
 from bs4 import BeautifulSoup
 import json
 
-def get_product_info(website):
+def get_product_info(arg):
     with open('src/websites/constants.json') as f:
-        constants = json.load(f)
-    return tuple(constants[website][key] for key in ['PRODUCTS', 'PRICE', 'PRODUCT_TITLE'])
+        file = json.load(f)
+    return (file[arg][key] for key in ['PRODUCTS', 'PRICE', 'PRODUCT_TITLE'])
 
 def get_constants(website: str):
     BASE_URL = f"https://www.{website}.com.br"
