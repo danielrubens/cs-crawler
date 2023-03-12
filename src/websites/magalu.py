@@ -26,7 +26,6 @@ class Magalu(Website):
         except (AttributeError, ValueError, ArithmeticError):
             return None
 
-    
     def _get_product_name(self, product_html: str) -> Optional[str]:
         return soup_finder(product_html, "find",("h2", {"data-testid": "product-title"})).text
     
