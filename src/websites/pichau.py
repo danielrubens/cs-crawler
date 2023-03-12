@@ -1,6 +1,7 @@
 import requests
-from typing import List
+from typing import List, Optional
 from bs4 import BeautifulSoup
+from src.utils import PRICE_REGEX
 from src.websites.website import Website
 from src.websites.website import HTML
 
@@ -23,3 +24,16 @@ class Pichau(Website):
         soup = BeautifulSoup(content, "html.parser")
         products = soup.find_all("a", {"data-cy": "list-product"})
         return (str(product) for product in products)
+    
+    def _get_product_price(self, product_html: str) -> Optional[float]:
+        soup = BeautifulSoup(product_html, "html.parser")
+        price_div = soup.find("div", {"class": "jss83"})
+        try:
+            price_str = PRICE_REGEX.search(price_div.text)
+        except AttributeError:
+            return None
+        try:
+            content = price_str.group(0).replace(",", "")
+            return float(content)
+        except (ValueError, AttributeError):
+            return None
