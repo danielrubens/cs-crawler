@@ -1,3 +1,6 @@
+from bs4 import BeautifulSoup
+
+
 def get_constantes(website: str):
     websites ={'pichau': ['pichau', 'search'], 'magazineluiza': ['magazineluiza', 'search']}
     BASE_URL = f"https://www.{websites[website][0]}.com.br"
@@ -10,3 +13,11 @@ def get_constantes(website: str):
         ),
     }
     return (BASE_URL, BASE_SEARCH_URL, HEADERS)
+
+def soup_finder(content, method, finder):
+    soup = BeautifulSoup(content, "html.parser")
+    methods = {"find_all": soup.find_all, "find": soup.find}
+    products = methods[method](finder[0], finder[1])
+    return products
+
+def soup_retrive(method)

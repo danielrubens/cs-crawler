@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from src.utils import PRICE_REGEX
 from src.websites.website import Website
 from src.websites.website import HTML
-from .services import get_constantes
+from .services import get_constantes, soup_finder
 
 class Pichau(Website):
     BASE_URL, BASE_SEARCH_URL, HEADERS = get_constantes("pichau")
@@ -14,8 +14,7 @@ class Pichau(Website):
 
     def _get_products_html(self, product_name: str) -> List[HTML]:
         content = self._get_search_page_with_search_results(product_name)
-        soup = BeautifulSoup(content, "html.parser")
-        products = soup.find_all("a", {"data-cy": "list-product"})
+        products = soup_finder(content, "find_all", ("a", {"data-cy": "list-product"}))
         return [str(product) for product in products]
     
     def _get_product_price(self, product_html: str) -> Optional[float]:
