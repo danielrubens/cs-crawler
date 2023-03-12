@@ -4,17 +4,10 @@ from bs4 import BeautifulSoup
 from src.utils import PRICE_REGEX
 from src.websites.website import Website
 from src.websites.website import HTML
+from .services import get_constantes
 
 class Pichau(Website):
-    BASE_URL = "https://www.pichau.com.br"
-    BASE_SEARCH_URL = f"{BASE_URL}/search"
-    HEADERS = {
-        "user-agent": (
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
-            "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 "
-            "Safari/537.36"
-        ),
-    }
+    BASE_URL, BASE_SEARCH_URL, HEADERS = get_constantes("pichau")
 
     def _get_search_page_with_search_results(self, product_name: str) -> HTML:
         return requests.get(self.BASE_SEARCH_URL, headers=self.HEADERS, params={"q": product_name.lower()}).text
