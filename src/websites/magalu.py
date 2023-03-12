@@ -28,11 +28,9 @@ class Magalu(Website):
 
     
     def _get_product_name(self, product_html: str) -> Optional[str]:
-        soup = BeautifulSoup(product_html, "html.parser")
-        return soup.find("h2", {"data-testid": "product-title"}).text
+        return soup_finder(product_html, "find",("h2", {"data-testid": "product-title"})).text
     
     def _get_product_url(self, product_html: str) -> Optional[str]:
-        soup = BeautifulSoup(product_html, "html.parser")
-        url = soup.a.get("href")
+        url = BeautifulSoup(product_html, "html.parser").a.get("href")
         product_path = url[0] if isinstance(url, list) else url
         return f"{self.BASE_URL}{product_path}"
