@@ -1,9 +1,8 @@
 import requests
-from typing import List, Optional
 from bs4 import BeautifulSoup
+from typing import List, Optional
 from src.utils import PRICE_REGEX
-from src.websites.website import Website
-from src.websites.website import HTML
+from src.websites.website import HTML, Website
 from .services import get_constants, soup_finder
 
 class Pichau(Website):
