@@ -3,6 +3,11 @@
       "PRODUCTS": ["li", {"class": "sc-fCBrnK hYPKVt"}],
       "PRICE": ["p", {"data-testid": "price-value"}],
       "PRODUCT_TITLE": ["h2", {"data-testid": "product-title"}]
+    },
+    "pichau":{
+      "PRODUCTS": ["a", {"data-cy": "list-product"}],
+      "PRICE": ["div", {"class": "jss83"}],
+      "PRODUCT_TITLE": null
     }
 }
   

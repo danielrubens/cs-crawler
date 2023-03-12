@@ -3,9 +3,10 @@ from bs4 import BeautifulSoup
 from typing import List, Optional
 from src.utils import PRICE_REGEX
 from src.websites.website import HTML, Website
-from .services import get_constants, soup_finder
+from .services import get_constants, soup_finder, get_product_info
 
 class Pichau(Website):
+    PRODUCTS, PRICE, PRODUCT_TITLE = get_product_info("pichau")
     BASE_URL, BASE_SEARCH_URL, HEADERS = get_constants("pichau")
 
     def _get_search_page_with_search_results(self, product_name: str) -> HTML:
@@ -13,11 +14,11 @@ class Pichau(Website):
 
     def _get_products_html(self, product_name: str) -> List[HTML]:
         content = self._get_search_page_with_search_results(product_name)
-        products = soup_finder(content, "find_all", ("a", {"data-cy": "list-product"}))
+        products = soup_finder(content, "find_all", self.PRODUCTS)
         return [str(product) for product in products]
     
     def _get_product_price(self, product_html: str) -> Optional[float]:
-        price_div = soup_finder(product_html, "find", ("div", {"class": "jss83"}))
+        price_div = soup_finder(product_html, "find", self.PRICE)
         price_str = PRICE_REGEX.search(price_div.text)
         return None if not price_str else float(price_str.group(0).replace(",", ""))
 

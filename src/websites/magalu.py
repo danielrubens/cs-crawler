@@ -4,10 +4,10 @@ from typing import List, Optional
 from bs4 import BeautifulSoup
 from src.utils import PRICE_REGEX
 from src.websites.website import HTML, Website
-from .services import get_constants, soup_finder, read_json
+from .services import get_constants, soup_finder, get_product_info
 
 class Magalu(Website):
-    PRODUCTS, PRICE, PRODUCT_TITLE = read_json()
+    PRODUCTS, PRICE, PRODUCT_TITLE = get_product_info("magalu")
     BASE_URL, BASE_SEARCH_URL, HEADERS = get_constants("magazineluiza")
 
     def _get_search_page_with_search_results(self, product_name: str) -> HTML:
