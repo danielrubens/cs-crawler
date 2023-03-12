@@ -15,8 +15,7 @@ class Magalu(Website):
     
     def _get_products_html(self, product_name: str) -> List[HTML]:
         content = self._get_search_page_with_search_results(product_name)
-        products = soup_finder(content, "find_all", ("li", {"class": "sc-fCBrnK hYPKVt"}))
-        return [str(product) for product in products if products]
+        return soup_finder(content, "find_all", ("li", {"class": "sc-fCBrnK hYPKVt"}))
     
     def _get_product_price(self, product_html: str) -> Optional[float]:
         price_div = soup_finder(product_html, "find", ("p", {"data-testid": "price-value"}))
