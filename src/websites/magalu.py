@@ -3,7 +3,7 @@ from typing import List, Optional
 from bs4 import BeautifulSoup
 from src.utils import PRICE_REGEX
 from src.websites.website import HTML, Website
-from .services import get_constantes
+from .services import get_constantes, soup_finder
 
 class Magalu(Website):
     BASE_URL, BASE_SEARCH_URL, HEADERS = get_constantes("magazineluiza")
@@ -15,13 +15,11 @@ class Magalu(Website):
     
     def _get_products_html(self, product_name: str) -> List[HTML]:
         content = self._get_search_page_with_search_results(product_name)
-        soup = BeautifulSoup(content, "html.parser")
-        products = soup.find_all("li", {"class": "sc-fCBrnK hYPKVt"})
+        products = soup_finder(content, "find_all", ("li", {"class": "sc-fCBrnK hYPKVt"}))
         return [str(product) for product in products if products]
     
     def _get_product_price(self, product_html: str) -> Optional[float]:
-        soup = BeautifulSoup(product_html, "html.parser")
-        price_div = soup.find("p", {"data-testid": "price-value"}) 
+        price_div = soup_finder(product_html, "find", ("p", {"data-testid": "price-value"}))
         try:
             price_str = PRICE_REGEX.search(price_div.text)
         except AttributeError:

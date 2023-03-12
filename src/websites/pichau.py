@@ -18,8 +18,7 @@ class Pichau(Website):
         return [str(product) for product in products]
     
     def _get_product_price(self, product_html: str) -> Optional[float]:
-        soup = BeautifulSoup(product_html, "html.parser")
-        price_div = soup.find("div", {"class": "jss83"})
+        price_div = soup_finder(product_html, "find", ("div", {"class": "jss83"}))
         try:
             price_str = PRICE_REGEX.search(price_div.text)
         except AttributeError:
