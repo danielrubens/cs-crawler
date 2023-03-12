@@ -37,3 +37,9 @@ class Pichau(Website):
             return float(content)
         except (ValueError, AttributeError):
             return None
+
+    def _get_product_name(self, product_html: str) -> Optional[str]:
+        soup = BeautifulSoup(product_html, "html.parser")
+        return soup.h2.text
+    
+    
