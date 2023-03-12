@@ -17,13 +17,13 @@ class Pichau(Website):
     }
 
     def _get_search_page_with_search_results(self, product_name: str) -> HTML:
-        return requests.get(self.BASE_URL, headers=self.HEADERS, params={"q": product_name.lower()}).text
+        return requests.get(self.BASE_SEARCH_URL, headers=self.HEADERS, params={"q": product_name.lower()}).text
 
     def _get_products_html(self, product_name: str) -> List[HTML]:
         content = self._get_search_page_with_search_results(product_name)
         soup = BeautifulSoup(content, "html.parser")
         products = soup.find_all("a", {"data-cy": "list-product"})
-        return (str(product) for product in products)
+        return [str(product) for product in products]
     
     def _get_product_price(self, product_html: str) -> Optional[float]:
         soup = BeautifulSoup(product_html, "html.parser")
@@ -42,4 +42,8 @@ class Pichau(Website):
         soup = BeautifulSoup(product_html, "html.parser")
         return soup.h2.text
     
-    
+    def _get_product_url(self, product_html: str) -> Optional[str]:
+        soup = BeautifulSoup(product_html, "html.parser")
+        url = soup.a.get("href")
+        product_path = url[0] if isinstance(url, list) else url
+        return f"{self.BASE_URL}{product_path}"
