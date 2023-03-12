@@ -14,7 +14,8 @@ class Pichau(Website):
 
     def _get_products_html(self, product_name: str) -> List[HTML]:
         content = self._get_search_page_with_search_results(product_name)
-        return soup_finder(content, "find_all", ("a", {"data-cy": "list-product"}))
+        products = soup_finder(content, "find_all", ("a", {"data-cy": "list-product"}))
+        return [str(product) for product in products]
     
     def _get_product_price(self, product_html: str) -> Optional[float]:
         price_div = soup_finder(product_html, "find", ("div", {"class": "jss83"}))
