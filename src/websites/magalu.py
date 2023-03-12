@@ -3,10 +3,10 @@ from typing import List, Optional
 from bs4 import BeautifulSoup
 from src.utils import PRICE_REGEX
 from src.websites.website import HTML, Website
-from .services import get_constantes, soup_finder
+from .services import get_constants, soup_finder
 
 class Magalu(Website):
-    BASE_URL, BASE_SEARCH_URL, HEADERS = get_constantes("magazineluiza")
+    BASE_URL, BASE_SEARCH_URL, HEADERS = get_constants("magazineluiza")
 
     def _get_search_page_with_search_results(self, product_name: str) -> HTML:
         urlify_product_name = product_name.lower().replace(" ", "+")
