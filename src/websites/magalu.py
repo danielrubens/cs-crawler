@@ -21,14 +21,11 @@ class Magalu(Website):
     def _get_product_price(self, product_html: str) -> Optional[float]:
         price_div = soup_finder(product_html, "find", ("p", {"data-testid": "price-value"}))
         try:
-            price_str = PRICE_REGEX.search(price_div.text)
-        except AttributeError:
-            return None
-        try:
-            content = price_str.group(0).replace(".", "").replace(",", ".")
+            content = PRICE_REGEX.search(price_div.text).group(0).replace(".", "").replace(",", ".")
             return float(content)
-        except (ValueError, ArithmeticError):
+        except (AttributeError, ValueError, ArithmeticError):
             return None
+
     
     def _get_product_name(self, product_html: str) -> Optional[str]:
         soup = BeautifulSoup(product_html, "html.parser")
