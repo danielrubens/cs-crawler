@@ -1,11 +1,13 @@
 import requests
+import json
 from typing import List, Optional
 from bs4 import BeautifulSoup
 from src.utils import PRICE_REGEX
 from src.websites.website import HTML, Website
-from .services import get_constants, soup_finder
+from .services import get_constants, soup_finder, read_json
 
 class Magalu(Website):
+    PRODUCTS, PRICE, PRODUCT_TITLE = read_json()
     BASE_URL, BASE_SEARCH_URL, HEADERS = get_constants("magazineluiza")
 
     def _get_search_page_with_search_results(self, product_name: str) -> HTML:
@@ -15,11 +17,11 @@ class Magalu(Website):
     
     def _get_products_html(self, product_name: str) -> List[HTML]:
         content = self._get_search_page_with_search_results(product_name)
-        products = soup_finder(content, "find_all", ("li", {"class": "sc-fCBrnK hYPKVt"}))
+        products = soup_finder(content, "find_all", self.PRODUCTS)
         return [str(product) for product in products if products]
     
     def _get_product_price(self, product_html: str) -> Optional[float]:
-        price_div = soup_finder(product_html, "find", ("p", {"data-testid": "price-value"}))
+        price_div = soup_finder(product_html, "find", self.PRICE)
         try:
             content = PRICE_REGEX.search(price_div.text).group(0).replace(".", "").replace(",", ".")
             return float(content)
@@ -27,7 +29,7 @@ class Magalu(Website):
             return None
 
     def _get_product_name(self, product_html: str) -> Optional[str]:
-        return soup_finder(product_html, "find",("h2", {"data-testid": "product-title"})).text
+        return soup_finder(product_html, "find", self.PRODUCT_TITLE).text
     
     def _get_product_url(self, product_html: str) -> Optional[str]:
         url = BeautifulSoup(product_html, "html.parser").a.get("href")

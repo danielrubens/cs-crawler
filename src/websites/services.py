@@ -1,5 +1,11 @@
 from bs4 import BeautifulSoup
+import json
 
+def read_json():
+    with open('src/websites/constants.json') as f:
+        constants = json.load(f)
+    PRODUCTS, PRICE, PRODUCT_TITLE = (constants['magalu'][key] for key in ['PRODUCTS', 'PRICE', 'PRODUCT_TITLE'])
+    return (PRODUCTS, PRICE, PRODUCT_TITLE)
 
 def get_constants(website: str):
     BASE_URL = f"https://www.{website}.com.br"

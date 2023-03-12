@@ -1,0 +1,8 @@
+{
+    "magalu": {
+      "PRODUCTS": ["li", {"class": "sc-fCBrnK hYPKVt"}],
+      "PRICE": ["p", {"data-testid": "price-value"}],
+      "PRODUCT_TITLE": ["h2", {"data-testid": "product-title"}]
+    }
+}
+  
