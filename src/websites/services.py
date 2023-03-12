@@ -17,5 +17,4 @@ def get_constants(website: str):
 def soup_finder(content, method, finder):
     soup = BeautifulSoup(content, "html.parser")
     methods = {"find_all": soup.find_all, "find": soup.find}
-    products = methods[method](*finder)
-    return products
+    return methods[method](*finder)
