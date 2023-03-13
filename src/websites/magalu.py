@@ -1,7 +1,5 @@
 import requests
 from typing import Optional
-from bs4 import BeautifulSoup
-from src.utils import PRICE_REGEX
 from src.websites.website import HTML
 from .parent import WebsiteWithSearchResults
 from .services import get_constants, get_product_info, soup_finder
